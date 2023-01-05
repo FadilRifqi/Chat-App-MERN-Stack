@@ -1,0 +1,97 @@
+.h-100 {
+  height: 100vh !important;
+}
+
+.m-0-auto {
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.bg-fff {
+  background-color: #fff;
+  width: auto;
+}
+
+.text-start {
+  text-align: left !important;
+}
+
+.form-box {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  width: 80%;
+}
+.w-100 {
+  width: 100%;
+}
+
+.btn-purple {
+  background-color: #7f56da !important;
+  border: 1px solid #7f56da !important;
+}
+.btn-purple:hover {
+  background-color: #5e33ba !important;
+  border: 1px solid #5e33ba !important;
+}
+.btn-purple:active {
+  background-color: #7f56da !important;
+  border: 1px solid #7f56da !important;
+  transform: scale(0.99);
+  -webkit-transform: scale(0.99);
+  -moz-transform: scale(0.99);
+}
+.btn-white {
+  background-color: #fff !important;
+  border: 1px solid black !important;
+  color: black;
+}
+.btn-white:hover {
+  background-color: #fffffe !important;
+  border: 1px solid black !important;
+  color: black;
+}
+.btn-white:active {
+  background-color: #fffffe !important;
+  border: 1px solid black !important;
+  color: black !important;
+  transform: scale(0.99);
+  -webkit-transform: scale(0.99);
+  -moz-transform: scale(0.99);
+}
+
+.color-purple {
+  color: #7f56da;
+  font-weight: 600;
+  text-decoration: none;
+}
+.color-purple:hover {
+  color: #5e33ba;
+  text-decoration: none;
+}
+
+.bg-grey-login {
+  background-color: rgb(210, 208, 221);
+}
+
+.bg-img {
+  background-color: #f3f4f8;
+}
+
+.purple-circle {
+  border-radius: 12rem 12rem 0 0;
+  height: 100px;
+  width: 200px;
+  background-color: #7f56da;
+}
+.purple-circle-blur {
+  border-radius: 0 0 12rem 12rem;
+  height: 100px;
+  width: 200px;
+  background-color: #7f56da;
+  filter: blur(18px);
+  -webkit-filter: blur(18px);
+}
