@@ -28,7 +28,7 @@ const UserSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      default: "Online",
+      default: "Offline",
     },
   },
   { minimize: false }

@@ -1,8 +1,10 @@
 import "./config/DataBase.js";
 import express from "express";
 import cors from "cors";
+import session from "express-session";
 import { createServer } from "http";
 import UserRoute from "./routes/UserRoute.js";
+import AuthRoute from "./routes/AuthRoute.js";
 import { Server } from "socket.io";
 
 const app = express();
@@ -29,10 +31,22 @@ io.on("connection", (socket) => {
     console.log(data);
   });
 });
+app.use(
+  session({
+    secret: process.env.SESS_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: "auto",
+      maxAge: 1000 * 60 * 60 * 24,
+    },
+  })
+);
 
-app.use(express.static("public"));
 app.use(express.json());
+app.use(express.static("public"));
 app.use(UserRoute);
+app.use(AuthRoute);
 
 httpServer.listen(PORT, () => {
   console.log("Listening To Port ", PORT);
