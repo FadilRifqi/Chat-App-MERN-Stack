@@ -27,14 +27,14 @@ export const createUsers = async (req, res) => {
   try {
     const { name, email, password, img } = req.body;
     const hashPassword = await argon2.hash(password);
-    await User.create({
+    const user = await User.create({
       name: name,
       email: email,
       password: hashPassword,
       img: img,
     });
     console.log(req.body);
-    res.status(201).json({ msg: "Berhasil" });
+    res.status(201).json(user);
   } catch (error) {
     res.status(400).json(error.message);
   }

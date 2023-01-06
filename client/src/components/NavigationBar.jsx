@@ -1,10 +1,24 @@
 import React from "react";
-import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
+import { Navbar, Container, Nav, NavDropdown, Button } from "react-bootstrap";
+import { useLogOutUserMutation } from "../services/appApi";
 const NavigationBar = () => {
+  const [logOut, { loading, error }] = useLogOutUserMutation();
+  const handleLogOut = async () => {
+    logOut().then((data) => {
+      if (data) {
+        console.log(data);
+      }
+    });
+  };
   return (
     <Navbar className="bg-img py-4" expand="lg">
       <div className="d-flex flex-row mx-3 container">
         <Navbar.Brand href="#home">Chat App</Navbar.Brand>
+        <Nav className="me-auto">
+          <Button variant="danger" onClick={handleLogOut}>
+            Log Out
+          </Button>
+        </Nav>
         <Navbar.Toggle aria-controls="basic-navbar-nav" className="nav-head" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useSignUpUserMutation } from "../services/appApi";
 import axios from "axios";
 import { FcGoogle } from "react-icons/fc";
 
@@ -11,29 +12,40 @@ const RegisterForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(null);
   const [isSubmit, setIsSubmit] = useState(false);
+  const [signUpUser, { loading, error }] = useSignUpUserMutation();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     setIsSubmit(true);
     setIsLoading(true);
     e.preventDefault();
-    try {
-      await axios.post("http://localhost:5000/users", {
-        name: name,
-        email: email,
-        password: password,
-      });
-      setName("");
-      setEmail("");
-      setPassword("");
-      setIsLoading(false);
-      setIsSuccess(true);
-    } catch (error) {
-      if (error) {
-        console.log(error);
-        setIsLoading(false);
-        setIsSuccess(false);
+
+    //sign up user
+    signUpUser({ name, email, password }).then(({ data }) => {
+      if (data) {
+        console.log(data);
+        navigate("/");
       }
-    }
+    });
+
+    // try {
+    //   await axios.post("http://localhost:5000/users", {
+    //     name: name,
+    //     email: email,
+    //     password: password,
+    //   });
+    //   setName("");
+    //   setEmail("");
+    //   setPassword("");
+    //   setIsLoading(false);
+    //   setIsSuccess(true);
+    // } catch (error) {
+    //   if (error) {
+    //     console.log(error);
+    //     setIsLoading(false);
+    //     setIsSuccess(false);
+    //   }
+    // }
   };
   return (
     <div className="h-max">

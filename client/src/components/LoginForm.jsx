@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { useLogInUserMutation } from "../services/appApi";
 import { FcGoogle } from "react-icons/fc";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -11,30 +12,28 @@ const LoginForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(null);
   const [isSubmit, setIsSubmit] = useState(false);
+  const [logInUser, { loading, error }] = useLogInUserMutation();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     setIsSubmit(true);
     setIsLoading(true);
     e.preventDefault();
-    try {
-      await axios.post("http://localhost:5000/login", {
-        name: name,
-        email: name,
-        password: password,
-      });
-      setName("");
-      setPassword("");
-      setIsLoading(false);
-      setIsSuccess(true);
-      navigate("/");
-    } catch (error) {
-      if (error) {
-        console.log(error);
+    logInUser({ name: name, email: name, password: password }).then((data) => {
+      if (data) {
+        console.log(data);
+        setName("");
+        setPassword("");
+        setIsLoading(false);
+        setIsSuccess(true);
+        navigate("/");
+      } else {
+        setName("");
+        setPassword("");
         setIsLoading(false);
         setIsSuccess(false);
       }
-    }
+    });
   };
 
   return (
