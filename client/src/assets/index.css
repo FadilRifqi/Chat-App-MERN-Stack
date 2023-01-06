@@ -4,8 +4,14 @@
 .h-full {
   height: 100%;
 }
+.h-body {
+  height: 90%;
+}
+.container-body {
+  margin-left: 0 !important;
+}
 .h-90 {
-  height: 96%;
+  height: 93vh;
 }
 .m-0-auto {
   margin: 0 auto;
@@ -78,6 +84,8 @@
   background-color: #fff !important;
   border: 1px solid #fff !important;
   color: black !important;
+  overflow: hidden;
+  align-items: center;
 }
 .btn-white-2:hover {
   background-color: #fffffe !important;
@@ -235,6 +243,9 @@
 
 .border-chat-box {
   border-radius: 20px;
+  box-shadow: 6px 6px 17px 0px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: 6px 6px 17px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 6px 6px 17px 0px rgba(0, 0, 0, 0.75);
 }
 
 .color-white {
@@ -332,4 +343,64 @@
 
 .h-auto {
   height: auto !important;
+}
+
+.w-20 {
+  width: 15%;
+}
+
+.list {
+  padding-top: 16px;
+  padding-bottom: 16px;
+  margin-left: 24px;
+  margin-right: 24px;
+  border-radius: 8px;
+  text-decoration: none;
+  align-items: center;
+  color: #000;
+  font-weight: 600;
+  font-size: 18px;
+  overflow: hidden;
+}
+.list:hover {
+  color: #000;
+}
+
+.list-active {
+  background-color: #7f56da;
+  color: #fff !important;
+}
+
+.align-center {
+  align-items: center;
+}
+.font-2 {
+  font-size: 24px;
+}
+
+.nav-head {
+  margin-right: 0 !important;
+}
+
+.send-box {
+  height: 10%;
+  align-items: center;
+}
+
+.chat-room-body {
+  overflow: hidden;
+}
+
+.bg-success-2 {
+  background-color: greenyellow;
+  border-radius: 8px;
+  padding: 6px;
+  font-weight: 600;
+}
+
+.bg-danger-2 {
+  background-color: tomato;
+  border-radius: 8px;
+  padding: 6px;
+  font-weight: 600;
 }

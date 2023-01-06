@@ -2,10 +2,10 @@ import React from "react";
 import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
 const NavigationBar = () => {
   return (
-    <Navbar bg="light" expand="lg">
-      <Container>
+    <Navbar className="bg-img py-4" expand="lg">
+      <div className="d-flex flex-row mx-3 container">
         <Navbar.Brand href="#home">Chat App</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Toggle aria-controls="basic-navbar-nav" className="nav-head" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link href="#home">Home</Nav.Link>
@@ -23,7 +23,7 @@ const NavigationBar = () => {
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>
-      </Container>
+      </div>
     </Navbar>
   );
 };

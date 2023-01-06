@@ -1,12 +1,12 @@
 import React from "react";
 import { useState } from "react";
-import { Button, Col, Container, Row } from "react-bootstrap";
+import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { BsBookmarkFill } from "react-icons/bs";
 import { TiCalculator } from "react-icons/ti";
 const ChatRoom = () => {
   const [isMarked, setIsMarked] = useState(true);
   return (
-    <div className="bg-fff h-90 border-chat-box">
+    <div className="bg-fff h-90 border-chat-box d-flex flex-column">
       <div className="d-flex flex-row justify-content-between head">
         <div className=" d-flex flex-row gap-2 mx-3">
           <img
@@ -20,7 +20,9 @@ const ChatRoom = () => {
         </div>
         <div className="right-side d-flex flex-row gap-2">
           <div>
-            <Button className="btn-white-2">Agree to Offer</Button>
+            <Button className="btn-white-2 d-flex justify-content-center align-center">
+              Agree to Offer
+            </Button>
           </div>
           <BsBookmarkFill
             className={`${isMarked ? "marked" : "unmarked"}`}
@@ -30,8 +32,8 @@ const ChatRoom = () => {
           />
         </div>
       </div>
-      <div className="chat-room-body">
-        <Container className="d-flex flex-column">
+      <div className="chat-room-body h-body">
+        <Container className="d-flex flex-column ">
           <div className="d-flex flex-column">
             <div className="d-flex justify-content-right">
               <p className="mx-2 text-sm mt-1">12.30</p>
@@ -59,6 +61,18 @@ const ChatRoom = () => {
               </div>
             </div>
           </div>
+        </Container>
+      </div>
+      <div className="border send-box d-flex">
+        <Container>
+          <Row>
+            <Col sm={10} className="">
+              <Form.Control type="text" className="" />
+            </Col>
+            <Col sm={2} className="">
+              <Button className="w-100">Send</Button>
+            </Col>
+          </Row>
         </Container>
       </div>
     </div>

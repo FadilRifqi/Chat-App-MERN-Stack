@@ -1,33 +1,32 @@
 import React, { useState } from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { FcGoogle } from "react-icons/fc";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { FcGoogle } from "react-icons/fc";
 
-const LoginForm = () => {
+const RegisterForm = () => {
   const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(null);
   const [isSubmit, setIsSubmit] = useState(false);
-  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     setIsSubmit(true);
     setIsLoading(true);
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/login", {
+      await axios.post("http://localhost:5000/users", {
         name: name,
-        email: name,
+        email: email,
         password: password,
       });
       setName("");
+      setEmail("");
       setPassword("");
       setIsLoading(false);
       setIsSuccess(true);
-      navigate("/");
     } catch (error) {
       if (error) {
         console.log(error);
@@ -36,7 +35,6 @@ const LoginForm = () => {
       }
     }
   };
-
   return (
     <div className="h-max">
       <Row className="h-max">
@@ -52,21 +50,43 @@ const LoginForm = () => {
           >
             <Form.Group>
               <Form.Label>
-                <h1>Welcome Back</h1>
-                <p>
-                  <em>Welcome Back! Please Enter Your Detail</em>
-                </p>
+                <h1>Create Account</h1>
               </Form.Label>
             </Form.Group>
             <Form.Group>
-              <Form.Label>Email</Form.Label>
+              <Form.Label
+                className={`w-100 text-center${
+                  isSubmit ? (isSuccess ? " bg-success-2" : " bg-danger-2") : ""
+                }`}
+              >
+                {isSubmit
+                  ? isSuccess
+                    ? "Success"
+                    : "Something Went Wrong"
+                  : ""}
+              </Form.Label>
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Username</Form.Label>
               <Form.Control
                 value={name}
                 onChange={(e) => {
                   setName(e.target.value);
                 }}
                 type="text"
-                placeholder="Enter Your Username or Email"
+                placeholder="Enter Your Username"
+              />
+            </Form.Group>
+            <br />
+            <Form.Group>
+              <Form.Label>Email</Form.Label>
+              <Form.Control
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
+                type="text"
+                placeholder="Enter Your Email"
               />
             </Form.Group>
             <br />
@@ -82,28 +102,23 @@ const LoginForm = () => {
               />
             </Form.Group>
             <br />
-            <Form.Group className="d-flex flex-row justify-content-between">
-              <Form.Check label="Remember Me" />
-              <Link className="color-purple">Forgot Password</Link>
-            </Form.Group>
-            <br />
             <Form.Group className="">
               <Button className="btn-purple w-100" type="submit">
-                Sign In
+                {isLoading ? "Loading" : "Sign Up"}
               </Button>
             </Form.Group>
             <br />
             <Form.Group className="">
               <Button className="btn-white-1 w-100">
-                <FcGoogle /> Sign In With Google
+                <FcGoogle /> Sign Up With Google
               </Button>
             </Form.Group>
             <br />
             <Form.Group className="text-center">
               <Form.Text>
-                Dont have an account?{" "}
-                <Link to={"/register"} className="color-purple">
-                  Sign Up
+                Already have an account?{" "}
+                <Link to={"/login"} className="color-purple">
+                  Sign In
                 </Link>
               </Form.Text>
             </Form.Group>
@@ -118,4 +133,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default RegisterForm;

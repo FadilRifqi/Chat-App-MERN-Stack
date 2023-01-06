@@ -1,6 +1,7 @@
 import * as React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import LoginForm from "./components/LoginForm";
+import RegisterForm from "./components/RegisterForm";
 import Main from "./pages/Main";
 
 function App() {
@@ -12,6 +13,10 @@ function App() {
     {
       path: "/login",
       element: <LoginForm />,
+    },
+    {
+      path: "/register",
+      element: <RegisterForm />,
     },
   ]);
   return <RouterProvider router={router} />;
