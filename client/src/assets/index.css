@@ -1,7 +1,12 @@
-.h-100 {
+.h-max {
   height: 100vh !important;
 }
-
+.h-full {
+  height: 100%;
+}
+.h-90 {
+  height: 96%;
+}
 .m-0-auto {
   margin: 0 auto;
   display: flex;
@@ -26,16 +31,20 @@
   width: 80%;
 }
 .w-100 {
-  width: 100%;
+  width: 100% !important;
 }
 
 .btn-purple {
   background-color: #7f56da !important;
   border: 1px solid #7f56da !important;
+  transition: all 0.5 ease-in-out;
 }
 .btn-purple:hover {
   background-color: #5e33ba !important;
   border: 1px solid #5e33ba !important;
+  transform: scale(1.01);
+  -webkit-transform: scale(1.01);
+  -moz-transform: scale(1.01);
 }
 .btn-purple:active {
   background-color: #7f56da !important;
@@ -44,19 +53,43 @@
   -webkit-transform: scale(0.99);
   -moz-transform: scale(0.99);
 }
-.btn-white {
+.btn-white-1 {
   background-color: #fff !important;
   border: 1px solid black !important;
-  color: black;
+  color: black !important;
 }
-.btn-white:hover {
+.btn-white-1:hover {
   background-color: #fffffe !important;
   border: 1px solid black !important;
   color: black;
+  transform: scale(1.01);
+  -webkit-transform: scale(1.01);
+  -moz-transform: scale(1.01);
 }
-.btn-white:active {
+.btn-white-1:active {
   background-color: #fffffe !important;
   border: 1px solid black !important;
+  color: black !important;
+  transform: scale(0.99);
+  -webkit-transform: scale(0.99);
+  -moz-transform: scale(0.99);
+}
+.btn-white-2 {
+  background-color: #fff !important;
+  border: 1px solid #fff !important;
+  color: black !important;
+}
+.btn-white-2:hover {
+  background-color: #fffffe !important;
+  border: 1px solid #fff !important;
+  color: black;
+  transform: scale(1.01);
+  -webkit-transform: scale(1.01);
+  -moz-transform: scale(1.01);
+}
+.btn-white-2:active {
+  background-color: #fffffe !important;
+  border: 1px solid #fff !important;
   color: black !important;
   transform: scale(0.99);
   -webkit-transform: scale(0.99);
@@ -94,4 +127,209 @@
   background-color: #7f56da;
   filter: blur(18px);
   -webkit-filter: blur(18px);
+}
+
+.search-icon {
+  font-size: 16px;
+}
+
+.bg-none {
+  text-align: left !important;
+  background-color: #f3f4f8 !important;
+  border: 1px solid #f3f4f8 !important;
+  color: #5e33ba !important;
+}
+
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes fadeOut {
+  from {
+    display: none;
+  }
+  to {
+    display: block;
+  }
+}
+@keyframes fadeOut {
+  from {
+    display: none;
+  }
+  to {
+    display: block;
+  }
+}
+
+.unread-msg-hidden {
+  display: none;
+  -webkit-animation: fadeOut 1s;
+  animation: fadeOut 1s;
+  opacity: 0;
+}
+.unread-msg-show {
+  display: block;
+  -webkit-animation: fadeIn 1s;
+  animation: fadeIn 1s;
+}
+
+.profile-picture {
+  border-radius: 50%;
+}
+
+.user-name {
+  font-size: 16px;
+  font-weight: 650;
+}
+
+.status-online {
+  height: 8px;
+  width: 8px;
+  border-radius: 50%;
+  background-color: greenyellow;
+}
+.status-offline {
+  height: 8px;
+  width: 8px;
+  border-radius: 50%;
+  background-color: tomato;
+}
+
+.chat-user {
+  position: relative;
+}
+.last-send {
+  margin-right: 8px;
+  position: absolute;
+  z-index: 999;
+  right: 0;
+}
+
+.unread-msg-box {
+}
+
+.msg-text {
+  margin-left: 4em;
+}
+
+.h-min {
+  height: 36px;
+}
+
+.head {
+  border-radius: 20px 20px 0 0;
+  background-color: #7f56da;
+}
+
+.border-chat-box {
+  border-radius: 20px;
+}
+
+.color-white {
+  color: #f3f4f8;
+  font-size: 16px;
+  margin-top: 20px;
+}
+
+.user-text {
+  color: #fff;
+  font-weight: 600;
+}
+
+.right-side {
+  font-size: 28px;
+  margin-right: 2em;
+  align-items: center;
+}
+
+.marked {
+  color: #fff !important;
+}
+.marked:hover {
+  color: #fff !important;
+  cursor: pointer;
+  transform: scale(1.05);
+  -webkit-transform: scale(1.05);
+  -moz-transform: scale(1.05);
+}
+.marked:active {
+  color: #fff !important;
+  cursor: pointer;
+  transform: scale(0.95);
+  -webkit-transform: scale(0.95);
+  -moz-transform: scale(0.95);
+}
+
+.unmarked {
+  color: #5685f3;
+}
+.unmarked:hover {
+  color: #5685f3;
+  cursor: pointer;
+  transform: scale(1.05);
+  -webkit-transform: scale(1.05);
+  -moz-transform: scale(1.05);
+}
+.unmarked:active {
+  color: #5685f3;
+  cursor: pointer;
+  transform: scale(0.95);
+  -webkit-transform: scale(0.95);
+  -moz-transform: scale(0.95);
+}
+
+.row-chat-right {
+  justify-content: end;
+  margin-top: 12px !important;
+  margin-bottom: 12px !important;
+}
+.row-chat-left {
+  justify-content: left;
+  margin-top: 12px !important;
+  margin-bottom: 12px !important;
+}
+.pop-up-right {
+  background-color: #9f77f4;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 16px 16px 0 16px;
+  width: auto;
+  margin-left: 32px;
+  padding: 16px;
+}
+.pop-up-left {
+  background-color: #ababab;
+  color: #fff;
+  font-weight: 600;
+  border-radius: 16px 16px 16px 0;
+  width: auto;
+  margin-right: 32px;
+  padding: 16px;
+}
+
+.justify-content-right {
+  justify-content: end !important;
+}
+.justify-content-left {
+  justify-content: left !important;
+}
+
+.text-sm {
+  font-size: 12px;
+}
+
+.h-auto {
+  height: auto !important;
 }
