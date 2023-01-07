@@ -12,6 +12,7 @@ const RegisterForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(null);
   const [isSubmit, setIsSubmit] = useState(false);
+  const [msg, setMsg] = useState(null);
   const [signUpUser, { loading, error }] = useSignUpUserMutation();
   const navigate = useNavigate();
 
@@ -21,9 +22,17 @@ const RegisterForm = () => {
     e.preventDefault();
 
     //sign up user
-    signUpUser({ name, email, password }).then(({ data }) => {
-      if (data) {
-        console.log(data);
+    signUpUser({ name, email, password }).then((data) => {
+      if (data.error) {
+        console.log(data.error.data.msg);
+        setMsg(data.error.data.msg);
+        setIsLoading(false);
+        setIsSuccess(false);
+      } else {
+        setName("");
+        setPassword("");
+        setIsLoading(false);
+        setIsSuccess(true);
         navigate("/");
       }
     });
@@ -71,11 +80,7 @@ const RegisterForm = () => {
                   isSubmit ? (isSuccess ? " bg-success-2" : " bg-danger-2") : ""
                 }`}
               >
-                {isSubmit
-                  ? isSuccess
-                    ? "Success"
-                    : "Something Went Wrong"
-                  : ""}
+                {isSubmit ? (isSuccess ? "Success" : msg) : ""}
               </Form.Label>
             </Form.Group>
             <Form.Group>

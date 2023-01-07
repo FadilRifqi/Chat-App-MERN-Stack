@@ -1,18 +1,28 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useContext } from "react";
 import { Col, Container, Row } from "react-bootstrap";
+import { AppContext } from "../context/appContext";
 import ChatRoom from "./ChatRoom";
 import Messages from "./Messages";
 
-const Dashboard = () => {
+const Chat = () => {
+  const { members } = useContext(AppContext);
   const getUsers = async () => {
-    const response = await axios.get("http://localhost:5000/users");
-    const data = await response.data;
-    console.log(data);
+    try {
+      const response = await axios.get("http://localhost:5000/users");
+      const data = await response.data;
+      console.log(data);
+    } catch (error) {
+      if (error) {
+        console.log(error.response.data.msg);
+      }
+    }
   };
   useEffect(() => {
     getUsers();
-  }, []);
+    console.log(members);
+  }, [members]);
   return (
     <Container className="py-3 mt-1 bg-img h-max border container-body px-3">
       <Row className="h-auto my-3 bg-img px-3">
@@ -27,4 +37,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Chat;

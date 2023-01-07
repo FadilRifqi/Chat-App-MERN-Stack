@@ -6,7 +6,7 @@ export const getUsers = async (req, res) => {
     const users = await User.find({}).select(
       "name email newMessage status password"
     );
-    res.status(200).json(users);
+    res.status(200).json({ users: users, user: req.session });
   } catch (error) {
     res.status(400).json({ msg: error.message });
   }
@@ -26,6 +26,11 @@ export const getUserById = async (req, res) => {
 export const createUsers = async (req, res) => {
   try {
     const { name, email, password, img } = req.body;
+    if (!name) return res.status(404).json({ msg: "Isi Username" });
+    if (!email) return res.status(404).json({ msg: "Isi email" });
+    if (!password) return res.status(404).json({ msg: "Isi password" });
+    if (password.length < 8)
+      return res.status(404).json({ msg: "Password Must 8 Character or More" });
     const hashPassword = await argon2.hash(password);
     const user = await User.create({
       name: name,
@@ -33,10 +38,15 @@ export const createUsers = async (req, res) => {
       password: hashPassword,
       img: img,
     });
-    console.log(req.body);
     res.status(201).json(user);
   } catch (error) {
-    res.status(400).json(error.message);
+    if (error.code === 11000) {
+      res.status(404).json({ msg: "Email Sudah Terdaftar" });
+    } else if (error.errors.email) {
+      res.status(400).json({ msg: error.errors.email.message });
+    } else {
+      res.status(400).json({ msg: "Something Went Wrong" });
+    }
   }
 };
 

@@ -4,20 +4,22 @@ import { Link } from "react-router-dom";
 import { IoMailUnreadOutline, IoChatbubblesOutline } from "react-icons/io5";
 import { MdInbox, MdBlock } from "react-icons/md";
 import { BsFillBookmarkDashFill, BsFillTrashFill } from "react-icons/bs";
-import { useState } from "react";
+import { useRef } from "react";
+import { useEffect } from "react";
 
-const SideBar = () => {
-  const [selected, setSelected] = useState("");
+const SideBar = (props) => {
+  useEffect(() => {}, []);
   return (
-    <div className=" w-20 h-auto">
+    <div className=" w-20 h-auto SideBar">
       <Navbar className="d-flex flex-column" expand="lg">
         <Nav className="w-100 d-flex flex-column gap-3 mt-5 text-none">
           <Link
+            to={"/pinned"}
             onClick={() => {
-              setSelected("pinned");
+              props.setSelected("pinned");
             }}
             className={`list text-center d-flex flex-row justify-content-between gap-1 ${
-              selected === "pinned" && "list-active"
+              props.selected === "pinned" && "list-active"
             }`}
           >
             <div className="d-flex flex-row gap-1 mx-4">
@@ -26,11 +28,12 @@ const SideBar = () => {
             <div className="mx-4">5</div>
           </Link>
           <Link
+            to={"/chat"}
             onClick={() => {
-              setSelected("chat");
+              props.setSelected("chat");
             }}
             className={`list text-center d-flex flex-row justify-content-between gap-1 ${
-              selected === "chat" && "list-active"
+              props.selected === "chat" && "list-active"
             }`}
           >
             <div className="d-flex flex-row gap-1 mx-4">
@@ -40,10 +43,10 @@ const SideBar = () => {
           </Link>
           <Link
             onClick={() => {
-              setSelected("live");
+              props.setSelected("live");
             }}
             className={`list text-center d-flex flex-row justify-content-between gap-1 ${
-              selected === "live" && "list-active"
+              props.selected === "live" && "list-active"
             }`}
           >
             <div className="d-flex flex-row gap-1 mx-4">
@@ -53,10 +56,10 @@ const SideBar = () => {
           </Link>
           <Link
             onClick={() => {
-              setSelected("archieved");
+              props.setSelected("archieved");
             }}
             className={`list text-center d-flex flex-row justify-content-between gap-1 ${
-              selected === "archieved" && "list-active"
+              props.selected === "archieved" && "list-active"
             }`}
           >
             <div className="d-flex flex-row gap-1 mx-4">
@@ -66,10 +69,10 @@ const SideBar = () => {
           </Link>
           <Link
             onClick={() => {
-              setSelected("blocked");
+              props.setSelected("blocked");
             }}
             className={`list text-center d-flex flex-row justify-content-between gap-1 ${
-              selected === "blocked" && "list-active"
+              props.selected === "blocked" && "list-active"
             }`}
           >
             <div className="d-flex flex-row gap-1 mx-4">
@@ -79,10 +82,10 @@ const SideBar = () => {
           </Link>
           <Link
             onClick={() => {
-              setSelected("trash");
+              props.setSelected("trash");
             }}
             className={`list text-center d-flex flex-row justify-content-between gap-1 ${
-              selected === "trash" && "list-active"
+              props.selected === "trash" && "list-active"
             }`}
           >
             <div className="d-flex flex-row gap-1 mx-4">

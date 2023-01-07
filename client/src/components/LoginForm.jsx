@@ -5,6 +5,8 @@ import { useLogInUserMutation } from "../services/appApi";
 import { FcGoogle } from "react-icons/fc";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { AppContext } from "../context/appContext";
 
 const LoginForm = () => {
   const [name, setName] = useState("");
@@ -12,6 +14,8 @@ const LoginForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(null);
   const [isSubmit, setIsSubmit] = useState(false);
+  const [msg, setMsg] = useState(null);
+  const { socket } = useContext(AppContext);
   const [logInUser, { loading, error }] = useLogInUserMutation();
   const navigate = useNavigate();
 
@@ -20,18 +24,18 @@ const LoginForm = () => {
     setIsLoading(true);
     e.preventDefault();
     logInUser({ name: name, email: name, password: password }).then((data) => {
-      if (data) {
+      if (data.error) {
+        console.log(data.error.data.msg);
+        setMsg(data.error.data.msg);
+        setIsLoading(false);
+        setIsSuccess(false);
+      } else {
         console.log(data);
         setName("");
         setPassword("");
         setIsLoading(false);
         setIsSuccess(true);
         navigate("/");
-      } else {
-        setName("");
-        setPassword("");
-        setIsLoading(false);
-        setIsSuccess(false);
       }
     });
   };
@@ -55,6 +59,15 @@ const LoginForm = () => {
                 <p>
                   <em>Welcome Back! Please Enter Your Detail</em>
                 </p>
+              </Form.Label>
+            </Form.Group>
+            <Form.Group>
+              <Form.Label
+                className={`w-100 text-center${
+                  isSubmit ? (isSuccess ? " bg-success-2" : " bg-danger-2") : ""
+                }`}
+              >
+                {isSubmit ? (isSuccess ? "Success" : msg) : ""}
               </Form.Label>
             </Form.Group>
             <Form.Group>
@@ -88,7 +101,7 @@ const LoginForm = () => {
             <br />
             <Form.Group className="">
               <Button className="btn-purple w-100" type="submit">
-                Sign In
+                {isLoading ? "Loading" : "Sign In"}
               </Button>
             </Form.Group>
             <br />

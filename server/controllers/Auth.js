@@ -4,6 +4,9 @@ import argon2 from "argon2";
 export const logIn = async (req, res) => {
   try {
     const { name, email, password } = req.body;
+    if (!name) return res.status(404).json({ msg: "Isi Username/Email" });
+    if (!email) return res.status(404).json({ msg: "Isi Username/Email" });
+    if (!password) return res.status(404).json({ msg: "Isi password" });
     const user = await User.findOne({
       $or: [{ name: name }, { email: email }],
     });
@@ -18,6 +21,7 @@ export const logIn = async (req, res) => {
         name: user.name,
         email: user.email,
         status: user.status,
+        users: req.session,
       });
     } else {
       res.status(403).json({ msg: "Password Tidak Cocok" });
