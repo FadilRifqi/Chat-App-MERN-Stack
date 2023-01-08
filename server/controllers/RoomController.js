@@ -1,4 +1,5 @@
 import Message from "../models/MessageModel.js";
+import { Server } from "socket.io";
 
 const room = ["general", "finance", "tech", "crypto"];
 

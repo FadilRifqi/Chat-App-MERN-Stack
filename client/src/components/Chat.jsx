@@ -5,22 +5,24 @@ import { Col, Container, Row } from "react-bootstrap";
 import { AppContext } from "../context/appContext";
 import ChatRoom from "./ChatRoom";
 import Messages from "./Messages";
+import { useGetUsersMutation } from "../services/appApi";
 
 const Chat = () => {
   const { members } = useContext(AppContext);
-  const getUsers = async () => {
+  const getMe = async () => {
     try {
       const response = await axios.get("http://localhost:5000/users");
-      const data = await response.data;
+      const data = response.data;
       console.log(data);
     } catch (error) {
       if (error) {
-        console.log(error.response.data.msg);
+        console.log(error.response.data);
       }
     }
   };
+
   useEffect(() => {
-    getUsers();
+    getMe();
     console.log(members);
   }, [members]);
   return (

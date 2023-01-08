@@ -38,6 +38,8 @@ export const createUsers = async (req, res) => {
       password: hashPassword,
       img: img,
     });
+    req.session.user_id = user._id;
+    req.session.email = user.email;
     res.status(201).json(user);
   } catch (error) {
     if (error.code === 11000) {

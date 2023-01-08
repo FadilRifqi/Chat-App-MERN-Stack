@@ -10,7 +10,7 @@ import thunk from "redux-thunk";
 
 //reducers
 const reducer = combineReducers({
-  user: userSlice,
+  auth: userSlice,
   [appApi.reducerPath]: appApi.reducer,
 });
 
@@ -27,7 +27,6 @@ const persistedReducer = persistReducer(persistConfig, reducer);
 
 const store = configureStore({
   reducer: persistedReducer,
-  middleware: [thunk, appApi.middleware],
 });
 
 export default store;

@@ -27,6 +27,13 @@ const appApi = createApi({
         body: payload,
       }),
     }),
+    getUsers: builder.mutation({
+      query: (payload) => ({
+        url: "/users",
+        method: "GET",
+        body: payload,
+      }),
+    }),
   }),
 });
 
@@ -34,6 +41,7 @@ export const {
   useLogInUserMutation,
   useLogOutUserMutation,
   useSignUpUserMutation,
+  useGetUsersMutation,
 } = appApi;
 
 export default appApi;

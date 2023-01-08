@@ -10,7 +10,7 @@ import { AppContext } from "../context/appContext";
 const Layout = (props) => {
   const { children } = props;
   const navigate = useNavigate();
-  const user = useSelector((state) => state.user);
+  const { user } = useSelector((state) => state.auth);
   const [selected, setSelected] = useState("");
   const {
     socket,
@@ -36,6 +36,7 @@ const Layout = (props) => {
     if (!user) {
       navigate("/login");
     }
+    console.log(user);
     setSelected(props.selected);
     socket.emit("new-user");
   }, [user]);

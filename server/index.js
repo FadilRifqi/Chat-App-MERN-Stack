@@ -20,6 +20,26 @@ app.use(
   })
 );
 
+app.use(
+  session({
+    secret: process.env.SESS_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: "auto",
+      maxAge: 1000 * 60 * 60 * 24,
+    },
+    store: MongoStore.create({
+      client: mongoose.connection.getClient(),
+      dbName: process.env.DB_USER,
+      collectionName: "sessions",
+      stringify: false,
+      autoRemove: "interval",
+      autoRemoveInterval: 1,
+    }),
+  })
+);
+
 const PORT = 5000;
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
@@ -74,25 +94,7 @@ io.on("connection", (socket) => {
     console.log(data);
   });
 });
-app.use(
-  session({
-    secret: process.env.SESS_SECRET,
-    resave: false,
-    saveUninitialized: true,
-    cookie: {
-      secure: "auto",
-      maxAge: 1000 * 60 * 60 * 24,
-    },
-    store: MongoStore.create({
-      client: mongoose.connection.getClient(),
-      dbName: process.env.DB_USER,
-      collectionName: "sessions",
-      stringify: false,
-      autoRemove: "interval",
-      autoRemoveInterval: 1,
-    }),
-  })
-);
+
 app.use(express.json());
 app.use(express.static("public"));
 app.use(UserRoute);

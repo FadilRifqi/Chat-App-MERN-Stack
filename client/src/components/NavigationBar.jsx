@@ -1,19 +1,23 @@
 import React from "react";
 import { Navbar, Container, Nav, NavDropdown, Button } from "react-bootstrap";
-import { useLogOutUserMutation } from "../services/appApi";
 import { IoMailUnreadOutline, IoChatbubblesOutline } from "react-icons/io5";
 import { MdInbox, MdBlock } from "react-icons/md";
 import { BsFillBookmarkDashFill, BsFillTrashFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { LogoutUser, reset } from "../features/userSlice";
 
 const NavigationBar = (props) => {
-  const [logOut, { loading, error }] = useLogOutUserMutation();
+  const dispatch = useDispatch();
   const handleLogOut = async () => {
-    logOut().then((data) => {
-      if (data) {
-        console.log(data);
+    try {
+      dispatch(LogoutUser());
+      dispatch(reset());
+    } catch (error) {
+      if (error) {
+        console.log(error);
       }
-    });
+    }
   };
   return (
     <Navbar className="bg-img py-4" expand="lg">

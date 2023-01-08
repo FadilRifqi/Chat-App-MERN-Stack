@@ -1,43 +1,39 @@
 import React, { useState } from "react";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { useLogInUserMutation } from "../services/appApi";
 import { FcGoogle } from "react-icons/fc";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AppContext } from "../context/appContext";
+import { useDispatch, useSelector } from "react-redux";
+import { LoginUser, GetMe, reset } from "../features/userSlice";
+import { useEffect } from "react";
 
 const LoginForm = () => {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(null);
-  const [isSubmit, setIsSubmit] = useState(false);
   const [msg, setMsg] = useState(null);
+  const [isSubmit, setIsSubmit] = useState(false);
+  const dispatch = useDispatch();
   const { socket } = useContext(AppContext);
-  const [logInUser, { loading, error }] = useLogInUserMutation();
   const navigate = useNavigate();
+  const { user, isLoading, isSuccess, isError, message } = useSelector(
+    (state) => state.auth
+  );
+
+  useEffect(() => {
+    if (user || isSuccess) {
+      navigate("/");
+    } else if (message) {
+      setMsg(message);
+      dispatch(reset());
+    }
+  }, [user, isSuccess, dispatch, navigate, message]);
 
   const handleSubmit = async (e) => {
-    setIsSubmit(true);
-    setIsLoading(true);
     e.preventDefault();
-    logInUser({ name: name, email: name, password: password }).then((data) => {
-      if (data.error) {
-        console.log(data.error.data.msg);
-        setMsg(data.error.data.msg);
-        setIsLoading(false);
-        setIsSuccess(false);
-      } else {
-        console.log(data);
-        setName("");
-        setPassword("");
-        setIsLoading(false);
-        setIsSuccess(true);
-        navigate("/");
-      }
-    });
+    setIsSubmit(true);
+    dispatch(LoginUser({ name: name, email: name, password: password }));
   };
 
   return (
