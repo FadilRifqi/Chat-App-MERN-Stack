@@ -24,7 +24,7 @@ export const logIn = async (req, res) => {
         status: user.status,
         newMessage: user.newMessage,
         newUser: user.newUser,
-        img: user.img,
+        img: user.img || "",
       });
     } else {
       res.status(403).json({ msg: "Password Tidak Cocok" });

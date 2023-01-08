@@ -33,7 +33,7 @@ const NavigationBar = (props) => {
         <Navbar.Collapse id="basic-navbar-nav" className="">
           <div className="d-hidden">
             <Nav className=" d-flex flex-column justify-content-center w-100">
-              <Nav.Link>
+              <div>
                 <Link
                   to={"/pinned"}
                   onClick={() => {
@@ -48,7 +48,7 @@ const NavigationBar = (props) => {
                   </div>
                   <div className="mx-4">5</div>
                 </Link>
-              </Nav.Link>
+              </div>
               <Link
                 to={"/chat"}
                 onClick={() => {

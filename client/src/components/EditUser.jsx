@@ -5,18 +5,62 @@ import { updateUser } from "../features/userSlice";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 import { FaRegTrashAlt } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
+const image = document.getElementById("input");
 
 const EditUser = () => {
   const { user } = useSelector((state) => state.auth);
   const [img, setImg] = useState(null);
   const [imgPreview, setImgPreview] = useState(null);
+  const [imgUrl, setImgUrl] = useState(null);
   const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [isDisabled, setIsDisabled] = useState(true);
+  const [uploadingImg, setUploadingImg] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const uploadImage = async () => {
+    if (img) {
+      const data = new FormData();
+      data.append("file", img);
+      data.append("upload_preset", "gqi8bx8n");
+      try {
+        setUploadingImg(true);
+        const response = await fetch(
+          "https://api.cloudinary.com/v1_1/dkzvrkthp/image/upload",
+          { method: "POST", body: data }
+        );
+        const urlData = await response.json();
+        setUploadingImg(false);
+        setImgUrl(urlData.url);
+        return urlData.url;
+      } catch (error) {
+        setUploadingImg(false);
+        console.log(error);
+      }
+    } else {
+      console.log("Ga ada gambar");
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    const url = await uploadImage();
+    console.log(url);
+    dispatch(
+      updateUser({
+        name: name || user.name,
+        img: url || imgUrl,
+        _id: user._id,
+      })
+    );
+  };
 
   const validateImg = (e) => {
     const file = e.target.files[0];
-    console.log(e);
+    console.log(file);
     if (file >= 1048576) {
       return alert("Max file is 1Mb");
     } else {
@@ -69,7 +113,7 @@ const EditUser = () => {
           <></>
         )}
       </div>
-      <Row className="justify-content-center edit-content">
+      <Row className="justify-content-center edit-content mb-4">
         <Col md={6} className=" d-flex flex-row">
           <div className="picture-box">
             <img
@@ -87,13 +131,16 @@ const EditUser = () => {
                 validateImg(e);
               }}
             />
-            <label for="input" className="btn btn-purple-upload">
+            <label htmlFor="input" className="btn btn-purple-upload">
               Change Profile Picture
             </label>
             <Button
               className="btn-white"
-              onClick={() => {
+              onClick={(e) => {
+                image.value = null;
                 setImgPreview(null);
+                setImg(null);
+                setImgUrl("");
               }}
             >
               <span className="color-red">
@@ -106,19 +153,33 @@ const EditUser = () => {
       </Row>
       {user ? (
         user.newUser ? (
+          <></>
+        ) : (
           <>
+            {" "}
             <Row className=" flex-column align-center mt-5">
               <Col md={6}>
                 <Form className="my-3">
                   <Form.Group>
                     <Form.Text>Username</Form.Text>
-                    <Form.Control type="text" />
+                    <Form.Control
+                      type="text"
+                      onChange={(e) => {
+                        setName(e.target.value);
+                      }}
+                    />
                   </Form.Group>
                   <br />
                   <Form.Group className="pos-rel">
                     <Form.Text>Email</Form.Text>
                     <div className="d-flex flex-row">
-                      <Form.Control type="text" disabled={isDisabled} />
+                      <Form.Control
+                        type="text"
+                        disabled={isDisabled}
+                        onChange={(e) => {
+                          setEmail(e.target.value);
+                        }}
+                      />
                       <Button
                         className="pos-abs btn-warning"
                         onClick={() => {
@@ -130,17 +191,26 @@ const EditUser = () => {
                     </div>
                   </Form.Group>
                   <br />
-                  <Button className="btn-purple">Submit</Button>
                 </Form>
               </Col>
             </Row>
           </>
-        ) : (
-          <>false</>
         )
       ) : (
         <></>
       )}
+      <Row className="justify-content-center">
+        <Col md={6}>
+          <Button
+            className="btn-purple"
+            onClick={(e) => {
+              handleSubmit(e);
+            }}
+          >
+            Submit
+          </Button>
+        </Col>
+      </Row>
     </div>
   );
 };

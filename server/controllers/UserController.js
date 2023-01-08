@@ -4,7 +4,7 @@ import argon2 from "argon2";
 export const getUsers = async (req, res) => {
   try {
     const users = await User.find({}).select(
-      "name email newMessage status password"
+      "name email newMessage status password img"
     );
     res.status(200).json({ users: users, user: req.session });
   } catch (error) {
@@ -15,7 +15,7 @@ export const getUsers = async (req, res) => {
 export const getUserById = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.params.id }).select(
-      "name email newMessage status"
+      "name email newMessage status img"
     );
     res.status(200).json(user);
   } catch (error) {
@@ -66,8 +66,11 @@ export const updateUser = async (req, res) => {
         img: img,
       }
     );
+    const updatedUser = await User.findOne({ _id: req.params.id }).select(
+      "_id name status newMessage newUser email img"
+    );
     console.log(req.body);
-    res.status(201).json(user);
+    res.status(201).json(updatedUser);
   } catch (error) {
     res.status(400).json(error.message);
   }
