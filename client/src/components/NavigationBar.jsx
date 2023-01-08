@@ -4,11 +4,12 @@ import { IoMailUnreadOutline, IoChatbubblesOutline } from "react-icons/io5";
 import { MdInbox, MdBlock } from "react-icons/md";
 import { BsFillBookmarkDashFill, BsFillTrashFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { LogoutUser, reset } from "../features/userSlice";
 
 const NavigationBar = (props) => {
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
   const handleLogOut = async () => {
     try {
       dispatch(LogoutUser());

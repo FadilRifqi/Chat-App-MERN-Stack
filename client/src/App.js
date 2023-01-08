@@ -1,11 +1,16 @@
-import React, { useState } from "react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  useNavigate,
+} from "react-router-dom";
 import LoginForm from "./components/LoginForm";
 import RegisterForm from "./components/RegisterForm";
 import ChatPage from "./pages/ChatPage";
 import Dashboard from "./pages/Dashboard";
 import Pinned from "./pages/Pinned";
 import { AppContext, socket } from "./context/appContext";
+import EditPage from "./pages/EditPage";
 
 function App() {
   const [rooms, setRooms] = useState([]);
@@ -14,6 +19,7 @@ function App() {
   const [messages, setMessages] = useState([]);
   const [privateMemberMsg, setPrivateMemberMsg] = useState({});
   const [newMessages, setNewMessages] = useState({});
+
   const router = createBrowserRouter([
     {
       path: "/",
@@ -35,7 +41,12 @@ function App() {
       path: "/chat",
       element: <ChatPage />,
     },
+    {
+      path: "/edit/:id",
+      element: <EditPage />,
+    },
   ]);
+
   return (
     <AppContext.Provider
       value={{
@@ -54,7 +65,7 @@ function App() {
         setNewMessages,
       }}
     >
-      <RouterProvider router={router} />{" "}
+      <RouterProvider router={router} />
     </AppContext.Provider>
   );
 }

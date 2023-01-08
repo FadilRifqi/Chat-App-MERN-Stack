@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userSlice from "./features/userSlice";
 import appApi from "./services/appApi";
+import { LoginUser } from "./features/userSlice";
 
 //persist our store
 import storage from "redux-persist/lib/storage";
@@ -11,7 +12,6 @@ import thunk from "redux-thunk";
 //reducers
 const reducer = combineReducers({
   auth: userSlice,
-  [appApi.reducerPath]: appApi.reducer,
 });
 
 const persistConfig = {

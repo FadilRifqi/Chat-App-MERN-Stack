@@ -7,6 +7,9 @@
 .h-body {
   height: 90%;
 }
+.min-h-100 {
+  min-height: 100vh;
+}
 .container-body {
   margin-left: 0 !important;
 }
@@ -478,4 +481,98 @@
   @media (max-width: 576px) {
     grid-template-columns: 100%;
   }
+}
+
+.edit-content {
+  margin-top: 4em !important;
+}
+.picture-box {
+  margin: 24px;
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  object-fit: contain;
+}
+
+.picture-box img {
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+}
+
+.edit-box {
+  margin-top: 3em;
+  margin-bottom: 3em;
+}
+
+.upload {
+  background-color: #5e33ba !important;
+  height: 3em;
+  display: none !important;
+}
+.upload::file-selector-button {
+  display: none;
+}
+
+.btn-purple-upload {
+  margin-top: 32px;
+  color: #fff !important;
+  font-weight: 600 !important;
+  background-color: #7f56da !important;
+  margin-left: 12px;
+  width: 90%;
+  border: 1px solid #7f56da !important;
+  transition: all 0.5 ease-in-out;
+}
+.btn-purple-upload:hover {
+  background-color: #5e33ba !important;
+  border: 1px solid #5e33ba !important;
+  transform: scale(1.01);
+  -webkit-transform: scale(1.01);
+  -moz-transform: scale(1.01);
+}
+.btn-purple-upload:active {
+  background-color: #7f56da !important;
+  border: 1px solid #7f56da !important;
+  transform: scale(0.99);
+  -webkit-transform: scale(0.99);
+  -moz-transform: scale(0.99);
+}
+
+.btn-white {
+  margin-top: 32px;
+  color: #000 !important;
+  font-weight: 600 !important;
+  background-color: #fff !important;
+  margin-left: 12px;
+  width: 90%;
+  border: 1px solid rgb(189, 188, 188) !important;
+  transition: all 0.5 ease-in-out;
+}
+.btn-white:hover {
+  background-color: #fff !important;
+  border: 1px solid rgb(189, 188, 188) !important;
+  transform: scale(1.01);
+  -webkit-transform: scale(1.01);
+  -moz-transform: scale(1.01);
+}
+.btn-white:active {
+  background-color: #fff !important;
+  border: 1px solid #fff !important;
+  transform: scale(0.99);
+  -webkit-transform: scale(0.99);
+  -moz-transform: scale(0.99);
+}
+
+.color-red {
+  color: tomato;
+}
+
+.pos-rel {
+  position: relative;
+}
+
+.pos-abs {
+  position: absolute;
+  right: 0;
 }

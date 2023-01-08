@@ -62,11 +62,12 @@ export const updateUser = async (req, res) => {
         name: name || user.name,
         email: email || user.email,
         password: password || user.password,
+        newUser: false,
         img: img,
       }
     );
     console.log(req.body);
-    res.status(201).json({ msg: "Berhasil" });
+    res.status(201).json(user);
   } catch (error) {
     res.status(400).json(error.message);
   }

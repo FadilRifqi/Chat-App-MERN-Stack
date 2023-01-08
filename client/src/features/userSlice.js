@@ -10,6 +10,24 @@ const initialState = {
   message: "",
 };
 
+export const signUpUser = createAsyncThunk(
+  "user/signUpUser",
+  async (user, thunkAPI) => {
+    try {
+      const response = await axios.post("http://localhost:5000/users", {
+        name: user.name,
+        email: user.email,
+        password: user.password,
+      });
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      const message = error.response.data.msg;
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const LoginUser = createAsyncThunk(
   "user/LoginUser",
   async (user, thunkAPI) => {
@@ -24,6 +42,28 @@ export const LoginUser = createAsyncThunk(
     } catch (error) {
       if (error.response) {
         const message = error.response.data.msg;
+        return thunkAPI.rejectWithValue(message);
+      }
+    }
+  }
+);
+export const updateUser = createAsyncThunk(
+  "user/updaeUser",
+  async (user, thunkAPI) => {
+    try {
+      const response = await axios.patch(
+        `http://localhost:5000/users/${user._id}`,
+        {
+          name: user.name,
+          img: user.img,
+        }
+      );
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      if (error.response) {
+        const message = error.response.data.msg;
+        console.log(error);
         return thunkAPI.rejectWithValue(message);
       }
     }
@@ -46,6 +86,7 @@ export const GetMe = createAsyncThunk("user/GetMe", async (_, thunkAPI) => {
 export const LogoutUser = createAsyncThunk("user/LogoutUser", async () => {
   await axios.delete("http://localhost:5000/logout");
 });
+
 export const userSlice = createSlice({
   name: "auth",
   initialState,
@@ -87,18 +128,38 @@ export const userSlice = createSlice({
       state.message = action.payload;
     });
 
-    // //save user after signUp
-    // builder.addMatcher(
-    //   appApi.endpoints.signUpUser.matchFulfilled,
-    //   (state, { payload }) => payload
-    // );
-    // //save user after login
-    // builder.addMatcher(
-    //   appApi.endpoints.logInUser.matchFulfilled,
-    //   (state, { payload }) => payload
-    // );
-    // //destroy user after logout
-    // builder.addMatcher(appApi.endpoints.logOutUser.matchFulfilled, () => null);
+    //create new user
+    builder.addCase(signUpUser.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(signUpUser.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isError = false;
+      state.isSuccess = true;
+      state.user = action.payload;
+    });
+    builder.addCase(signUpUser.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.isSuccess = false;
+      state.message = action.payload;
+    });
+    //update user
+    builder.addCase(updateUser.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(updateUser.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isError = false;
+      state.isSuccess = true;
+      state.user = action.payload;
+    });
+    builder.addCase(updateUser.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.isSuccess = false;
+      state.message = action.payload;
+    });
   },
 });
 

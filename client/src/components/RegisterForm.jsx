@@ -4,57 +4,34 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSignUpUserMutation } from "../services/appApi";
 import axios from "axios";
 import { FcGoogle } from "react-icons/fc";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { signUpUser, reset } from "../features/userSlice";
 
 const RegisterForm = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(null);
   const [isSubmit, setIsSubmit] = useState(false);
   const [msg, setMsg] = useState(null);
-  const [signUpUser, { loading, error }] = useSignUpUserMutation();
+  const { user, isLoading, isSuccess, isError, message } = useSelector(
+    (state) => state.auth
+  );
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (user || isSuccess) {
+      navigate("/");
+    } else if (message) {
+      setMsg(message);
+      dispatch(reset());
+    }
+  }, [user, isSuccess, dispatch, navigate, message]);
 
   const handleSubmit = async (e) => {
     setIsSubmit(true);
-    setIsLoading(true);
     e.preventDefault();
-
-    //sign up user
-    signUpUser({ name, email, password }).then((data) => {
-      if (data.error) {
-        console.log(data.error.data.msg);
-        setMsg(data.error.data.msg);
-        setIsLoading(false);
-        setIsSuccess(false);
-      } else {
-        setName("");
-        setPassword("");
-        setIsLoading(false);
-        setIsSuccess(true);
-        navigate("/");
-      }
-    });
-
-    // try {
-    //   await axios.post("http://localhost:5000/users", {
-    //     name: name,
-    //     email: email,
-    //     password: password,
-    //   });
-    //   setName("");
-    //   setEmail("");
-    //   setPassword("");
-    //   setIsLoading(false);
-    //   setIsSuccess(true);
-    // } catch (error) {
-    //   if (error) {
-    //     console.log(error);
-    //     setIsLoading(false);
-    //     setIsSuccess(false);
-    //   }
-    // }
+    dispatch(signUpUser({ name: name, email: email, password: password }));
   };
   return (
     <div className="h-max">

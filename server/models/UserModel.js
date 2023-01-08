@@ -30,6 +30,10 @@ const UserSchema = new mongoose.Schema(
       type: String,
       default: "Online",
     },
+    newUser: {
+      type: Boolean,
+      default: true,
+    },
   },
   { minimize: false }
 );

@@ -36,6 +36,9 @@ const Layout = (props) => {
     if (!user) {
       navigate("/login");
     }
+    if (user.newUser) {
+      navigate(`/edit/${user._id}`);
+    }
     console.log(user);
     setSelected(props.selected);
     socket.emit("new-user");

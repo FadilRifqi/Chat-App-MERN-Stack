@@ -14,6 +14,7 @@ export const logIn = async (req, res) => {
     const match = await argon2.verify(user.password, password);
     if (match) {
       user.status = "Online";
+      user.newUser = false;
       req.session.user_id = user._id;
       req.session.email = user.email;
       res.status(200).json({
@@ -21,7 +22,9 @@ export const logIn = async (req, res) => {
         name: user.name,
         email: user.email,
         status: user.status,
-        users: req.session,
+        newMessage: user.newMessage,
+        newUser: user.newUser,
+        img: user.img,
       });
     } else {
       res.status(403).json({ msg: "Password Tidak Cocok" });
