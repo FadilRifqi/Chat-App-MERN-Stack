@@ -34,6 +34,18 @@ const UserSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    friendRequests: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "FriendRequest",
+      },
+    ],
+    friends: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
   },
   { minimize: false }
 );

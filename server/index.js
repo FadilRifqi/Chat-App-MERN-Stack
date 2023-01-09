@@ -5,6 +5,7 @@ import session from "express-session";
 import { createServer } from "http";
 import UserRoute from "./routes/UserRoute.js";
 import AuthRoute from "./routes/AuthRoute.js";
+import FriendRoute from "./routes/FriendRoute.js";
 import { Server } from "socket.io";
 import User from "./models/UserModel.js";
 import mongoose from "mongoose";
@@ -99,6 +100,7 @@ app.use(express.json());
 app.use(express.static("public"));
 app.use(UserRoute);
 app.use(AuthRoute);
+app.use(FriendRoute);
 
 httpServer.listen(PORT, () => {
   console.log("Listening To Port ", PORT);

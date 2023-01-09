@@ -1,12 +1,12 @@
 import mongoose from "mongoose";
 
 const MessageSchema = new mongoose.Schema({
-  content: String,
-  from: Object,
-  socketid: String,
-  time: String,
-  date: String,
-  to: String,
+  content: { type: String },
+  from: { type: Object },
+  socketid: { type: String },
+  time: { type: String },
+  date: { type: String },
+  to: { type: String },
 });
 
 const Message = mongoose.model("Message", MessageSchema);

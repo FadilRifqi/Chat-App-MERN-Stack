@@ -47,7 +47,7 @@ export const me = async (req, res) => {
   }
   const user = await User.findOne({
     _id: req.session.user_id,
-  }).select("_id name newMessage email status");
+  }).select("_id name newMessage email status friends friendRequests");
   if (!user)
     return res.status(404).json({ msg: "User Ga Ada", user: req.session });
   res.status(200).json({ user: user, session: req.session });
