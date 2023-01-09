@@ -2,8 +2,8 @@ import React from "react";
 import { useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { BsBookmarkFill } from "react-icons/bs";
-import { TiCalculator } from "react-icons/ti";
-const ChatRoom = () => {
+
+const ChatRoom = (props) => {
   const [isMarked, setIsMarked] = useState(true);
   return (
     <div className="bg-fff h-90 border-chat-box d-flex flex-column">
@@ -15,7 +15,7 @@ const ChatRoom = () => {
             className="profile-picture m-2"
           />
           <p className="color-white">
-            Conversation with <span className="user-text">Fadil</span>
+            Conversation with <span className="user-text">{props.sender}</span>
           </p>
         </div>
         <div className="right-side d-flex flex-row gap-2">
@@ -63,14 +63,14 @@ const ChatRoom = () => {
           </div>
         </Container>
       </div>
-      <div className="border send-box d-flex">
+      <div className="send-box d-flex">
         <Container>
           <Row>
-            <Col sm={10} className="">
+            <Col sm={12} className="d-flex gap-3">
               <Form.Control type="text" className="" />
-            </Col>
-            <Col sm={2} className="">
-              <Button className="w-100">Send</Button>
+              <div>
+                <Button className="w-100">Send</Button>
+              </div>
             </Col>
           </Row>
         </Container>

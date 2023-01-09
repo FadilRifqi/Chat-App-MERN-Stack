@@ -388,6 +388,7 @@
 .send-box {
   height: 10%;
   align-items: center;
+  border-radius: 0 0 20px 20px;
 }
 
 .chat-room-body {
@@ -575,4 +576,57 @@
 .pos-abs {
   position: absolute;
   right: 0;
+}
+
+.friend-container {
+  height: 80vh;
+  overflow: scroll;
+}
+.friend-container::-webkit-scrollbar {
+  display: none;
+}
+
+.friend-box:hover {
+  cursor: pointer;
+}
+.friend-box:active {
+  transform: scale(0.99);
+  -webkit-transform: scale(0.99);
+  -moz-transform: scale(0.99);
+}
+
+.modal-cont {
+  height: 70vh;
+  width: 70vw;
+  background-color: #fff;
+}
+.modal-friend-show {
+  display: block;
+  position: absolute;
+  top: 50%;
+  margin-top: -35vh;
+  left: 50%;
+  margin-left: -35vw;
+}
+.modal-friend-hide {
+  display: none;
+}
+
+.close-btn {
+  right: 0;
+  margin-right: 8px;
+  position: absolute;
+  font-size: 24px;
+  color: tomato;
+}
+.close-btn:hover {
+  cursor: pointer;
+}
+
+.all-user-container {
+  height: 50vh;
+  overflow: scroll;
+}
+.all-user-container::-webkit-scrollbar {
+  display: none;
 }

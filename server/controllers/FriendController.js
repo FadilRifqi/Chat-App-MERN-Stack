@@ -6,18 +6,17 @@ export const sendFriendRequest = async (req, res) => {
     const { sender } = req.body;
     const receiverUser = await User.findOne({ _id: req.params.id });
     const senderUser = await User.findOne({ _id: sender });
+    for (let friend of receiverUser.friends) {
+      if (friend === senderUser._id)
+        return res.status(400).json({ msg: "Sudah Berteman" });
+    }
+    if (receiverUser._id === senderUser._id)
+      return res.status(403).json({ msg: "Diri sendiri" });
     const request = new FriendRequest({
       sender: senderUser._id,
       receiver: receiverUser._id,
     });
     request.save();
-    const verReceiverUser = await User.findOne({ _id: request.receiver });
-    const verSenderUser = await User.findOne({ _id: request.sender });
-    if (
-      verReceiverUser.name === receiverUser.name &&
-      verSenderUser.name === receiverUser.name
-    )
-      return res.status(400).json({ msg: "Sudah Mengirim Request" });
 
     receiverUser.friendRequests.push(request._id);
     receiverUser.save();
@@ -84,6 +83,23 @@ export const rejectFriendRequest = async (req, res) => {
     } else {
       res.status(403).json({ msg: request.receiver, me: req.session.user_id });
     }
+  } catch (error) {
+    res.status(400).json(error);
+  }
+};
+
+export const getFriends = async (req, res) => {
+  try {
+    const user = await User.findById(req.session.user_id).select("friends");
+    if (!user) return res.status(404).json({ msg: "User Not Found" });
+    const friendData = [];
+    for (let friend of user.friends) {
+      const data = await User.findById(friend._id).select(
+        "_id name newMessage email status friends friendRequests"
+      );
+      friendData.push(data);
+    }
+    res.status(200).json({ data: friendData });
   } catch (error) {
     res.status(400).json(error);
   }

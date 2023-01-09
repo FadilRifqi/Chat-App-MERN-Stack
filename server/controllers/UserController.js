@@ -4,9 +4,17 @@ import argon2 from "argon2";
 export const getUsers = async (req, res) => {
   try {
     const users = await User.find({}).select(
-      "name email newMessage status password img"
+      "name email newMessage status password img friendRequests"
     );
-    res.status(200).json({ users: users, user: req.session });
+
+    const friends = await User.findById(req.session.user_id).select(
+      "friends -_id"
+    );
+
+    const friendId = friends.friends;
+    const filteredUser = users.filter((user) => !friendId.includes(user._id));
+
+    res.status(200).json(filteredUser);
   } catch (error) {
     res.status(400).json({ msg: error.message });
   }
@@ -15,7 +23,7 @@ export const getUsers = async (req, res) => {
 export const getUserById = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.params.id }).select(
-      "name email newMessage status img"
+      "name email newMessage status img friendRequests friends"
     );
     res.status(200).json(user);
   } catch (error) {
