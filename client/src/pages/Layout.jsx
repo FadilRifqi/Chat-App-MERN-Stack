@@ -31,6 +31,7 @@ const Layout = (props) => {
   } = useContext(AppContext);
 
   socket.off("new-user").on("new-user", (payload) => {
+    console.log(payload);
     setMembers(payload);
   });
 
@@ -43,7 +44,7 @@ const Layout = (props) => {
       }
       console.log(user);
       setSelected(props.selected);
-      // socket.emit("new-user");
+      socket.emit("new-user");
     }
   }, [user]);
 

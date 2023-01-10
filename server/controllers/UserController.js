@@ -7,12 +7,16 @@ export const getUsers = async (req, res) => {
       "name email newMessage status img friendRequests"
     );
 
+    const me = await User.findById(req.session.user_id).select("_id");
+
     const friends = await User.findById(req.session.user_id).select(
       "friends -_id"
     );
 
     const friendId = friends.friends;
-    const filteredUser = users.filter((user) => !friendId.includes(user._id));
+    const filteredUser = users.filter(
+      (user) => !friendId.includes(user._id) && !me._id.equals(user._id)
+    );
 
     res.status(200).json(filteredUser);
   } catch (error) {

@@ -2,8 +2,11 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Button, Col, Container, Form, InputGroup, Row } from "react-bootstrap";
 import { RiSearch2Line } from "react-icons/ri";
-import { AiOutlineClose, AiOutlinePlus } from "react-icons/ai";
+import { AiOutlinePlus } from "react-icons/ai";
 import { useSelector } from "react-redux";
+import FriendList from "./FriendList";
+import UserModal from "./UserModal";
+import FriendModal from "./FriendModal";
 const Messages = (props) => {
   const [showModal, setShowModal] = useState(false);
   const [showRequest, setShowRequest] = useState(false);
@@ -17,38 +20,6 @@ const Messages = (props) => {
     setShowRequest(true);
   };
 
-  const rejectFriend = async (id) => {
-    try {
-      const response = await axios.post(
-        `http://localhost:5000/friend/reject/${id}`,
-        {
-          sender: user._id,
-        }
-      );
-      console.log(response);
-    } catch (error) {
-      if (error) {
-        console.log(error);
-      }
-    }
-  };
-
-  const acceptFriend = async (id) => {
-    try {
-      const response = await axios.post(
-        `http://localhost:5000/friend/accept/${id}`,
-        {
-          sender: user._id,
-        }
-      );
-      console.log(response);
-    } catch (error) {
-      if (error) {
-        console.log(error);
-      }
-    }
-  };
-
   const handleShowModal = async () => {
     setShowModal(true);
     try {
@@ -59,22 +30,6 @@ const Messages = (props) => {
     } catch (error) {
       if (error) {
         console.log(error);
-      }
-    }
-  };
-  const sendFriendRequest = async (receiver) => {
-    try {
-      const response = await axios.post(
-        `http://localhost:5000/friend/${receiver}`,
-        {
-          sender: user._id,
-        }
-      );
-      const data = await response.data;
-      console.log(data);
-    } catch (error) {
-      if (error) {
-        console.log(error.response.data);
       }
     }
   };
@@ -153,180 +108,17 @@ const Messages = (props) => {
           </Col>
         </Row>
       </div>
-      <div className="my-2 friend-container">
-        {friends.map((friend, i) => {
-          return (
-            <div className="d-flex flex-column">
-              <div
-                className=" p-3 my-2 d-flex flex-column border friend-box"
-                onClick={() => {
-                  props.setSender(friend.name);
-                }}
-              >
-                <div className="chat-user d-flex flex-row gap-3">
-                  <img
-                    src={friend.img || "/image/60111.jpg"}
-                    style={{ height: "50px", width: "50px" }}
-                    className="profile-picture"
-                  />
-                  <div className="d-flex flex-row gap-1">
-                    <p className="user-name">{friend.name}</p>
-                    <div
-                      className={`${
-                        friend.status === "Online"
-                          ? "status-online"
-                          : "status-offline"
-                      } mt-2`}
-                    ></div>
-                    <div className="last-send">{friend.newMessage.time}</div>
-                  </div>
-                </div>
-                <div className="unread-msg-box">
-                  <p className="msg-text">
-                    {friend.newMessage.msg
-                      ? friend.newMessage.msg
-                      : "Click To Start Message"}
-                  </p>
-                </div>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-      <div
-        className={`${
-          showModal ? "modal-friend-show" : "modal-friend-hide"
-        } modal-cont border`}
-      >
-        <div
-          className="close-btn"
-          onClick={() => {
-            setShowModal(false);
-          }}
-        >
-          <AiOutlineClose />
-        </div>
-        <Container className="mt-3 overflow-hidden">
-          <Row className="my-3">
-            <Col md={12} className="justify-content-center d-flex">
-              <h5>Search Friend</h5>
-            </Col>
-          </Row>
-          <Row>
-            <Col md={12} className="justify-content-center d-flex">
-              <div style={{ width: "400px" }} className="border">
-                <Form>
-                  <Form.Group>
-                    <Form.Control type="text" />
-                  </Form.Group>
-                </Form>
-              </div>
-            </Col>
-          </Row>
-          <Row className="all-user-container">
-            {users.map((user, i) => {
-              return (
-                <Col md={4}>
-                  <div className="d-flex flex-column">
-                    <div className=" p-3 my-2 d-flex flex-column border friend-box">
-                      <div className="chat-user d-flex flex-row gap-3">
-                        <img
-                          src={"/image/60111.jpg"}
-                          style={{ height: "50px", width: "50px" }}
-                          className="profile-picture"
-                        />
-                        <div className="d-flex flex-row gap-1">
-                          <p className="user-name">{user.name}</p>
-                          <div
-                            className={`${
-                              user.status === "Online"
-                                ? "status-online"
-                                : "status-offline"
-                            } mt-2`}
-                          ></div>
-                        </div>
-                      </div>
-                      <div className="unread-msg-box mt-3">
-                        <Button
-                          className="btn-white-1"
-                          onClick={() => {
-                            sendFriendRequest(user._id);
-                          }}
-                        >
-                          Add Friend <AiOutlinePlus />
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                </Col>
-              );
-            })}
-          </Row>
-        </Container>
-      </div>
-      <div
-        className={`${
-          showRequest ? "modal-friend-show" : "modal-friend-hide"
-        } modal-cont border`}
-      >
-        <div
-          className="close-btn"
-          onClick={() => {
-            setShowRequest(false);
-          }}
-        >
-          <AiOutlineClose />
-        </div>
-        <Container className="mt-3 overflow-hidden">
-          <Row className="all-user-container-2">
-            {request.map((user, i) => {
-              return (
-                <Col md={4}>
-                  <div className="d-flex flex-column">
-                    <div className=" p-3 my-2 d-flex flex-column border">
-                      <div className="chat-user d-flex flex-row gap-3">
-                        <img
-                          src={"/image/60111.jpg"}
-                          style={{ height: "50px", width: "50px" }}
-                          className="profile-picture"
-                        />
-                        <div className="d-flex flex-row gap-1">
-                          <p className="user-name">{user.user.name}</p>
-                          <div
-                            className={`${
-                              user.status === "Online"
-                                ? "status-online"
-                                : "status-offline"
-                            } mt-2`}
-                          ></div>
-                        </div>
-                      </div>
-                      <div className="unread-msg-box mt-3 d-flex gap-3 ">
-                        <Button
-                          className="btn-white-1"
-                          onClick={() => {
-                            acceptFriend(user.id);
-                          }}
-                        >
-                          Accept <AiOutlinePlus />
-                        </Button>
-                        <Button
-                          className="btn-danger"
-                          onClick={() => {
-                            rejectFriend(user.id);
-                          }}
-                        >
-                          Reject <AiOutlinePlus />
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                </Col>
-              );
-            })}
-          </Row>
-        </Container>
-      </div>
+      <FriendList friends={friends} setSender={props.setSender} />
+      <UserModal
+        showModal={showModal}
+        users={users}
+        setShowModal={setShowModal}
+      />
+      <FriendModal
+        request={request}
+        showRequest={showRequest}
+        setShowRequest={setShowRequest}
+      />
     </Container>
   );
 };

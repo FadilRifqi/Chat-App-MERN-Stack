@@ -38,7 +38,7 @@ export const sendFriendRequest = async (req, res) => {
       $and: [{ sender: senderUser._id }, { receiver: receiverUser._id }],
     });
 
-    if (verRequest.status === "accepted" || "pending")
+    if (verRequest && verRequest.status === "pending")
       return res.status(400).json(verRequest);
 
     if (receiverUser._id === senderUser._id)
@@ -56,7 +56,7 @@ export const sendFriendRequest = async (req, res) => {
 
     res.status(201).json({ msg: "Request Terkirim" });
   } catch (error) {
-    res.status(400).json(error);
+    res.status(400).json(error.message);
   }
 };
 
