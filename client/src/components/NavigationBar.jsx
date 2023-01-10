@@ -6,10 +6,13 @@ import { BsFillBookmarkDashFill, BsFillTrashFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { LogoutUser, reset } from "../features/userSlice";
+import axios from "axios";
+import { useEffect } from "react";
 
 const NavigationBar = (props) => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
+
   const handleLogOut = async () => {
     try {
       dispatch(LogoutUser());
@@ -20,6 +23,7 @@ const NavigationBar = (props) => {
       }
     }
   };
+
   return (
     <Navbar className="bg-img py-4" expand="lg">
       <div className="d-flex flex-row mx-3 container">
@@ -28,6 +32,7 @@ const NavigationBar = (props) => {
           <Button variant="danger" onClick={handleLogOut}>
             Log Out
           </Button>
+          <Navbar.Brand>{user && user.name}</Navbar.Brand>
         </Nav>
         <Navbar.Toggle aria-controls="basic-navbar-nav" className="nav-head" />
         <Navbar.Collapse id="basic-navbar-nav" className="">

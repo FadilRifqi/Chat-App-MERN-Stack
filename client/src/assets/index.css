@@ -630,3 +630,11 @@
 .all-user-container::-webkit-scrollbar {
   display: none;
 }
+
+.all-user-container-2 {
+  height: 65vh;
+  overflow: scroll;
+}
+.all-user-container-2::-webkit-scrollbar {
+  display: none;
+}

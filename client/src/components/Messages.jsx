@@ -6,9 +6,48 @@ import { AiOutlineClose, AiOutlinePlus } from "react-icons/ai";
 import { useSelector } from "react-redux";
 const Messages = (props) => {
   const [showModal, setShowModal] = useState(false);
+  const [showRequest, setShowRequest] = useState(false);
+  const [length, setLength] = useState(0);
+  const [request, setRequest] = useState([]);
   const [users, setUsers] = useState([]);
   const [friends, setFriends] = useState([]);
   const { user } = useSelector((state) => state.auth);
+
+  const handleFriendRequests = async () => {
+    setShowRequest(true);
+  };
+
+  const rejectFriend = async (id) => {
+    try {
+      const response = await axios.post(
+        `http://localhost:5000/friend/reject/${id}`,
+        {
+          sender: user._id,
+        }
+      );
+      console.log(response);
+    } catch (error) {
+      if (error) {
+        console.log(error);
+      }
+    }
+  };
+
+  const acceptFriend = async (id) => {
+    try {
+      const response = await axios.post(
+        `http://localhost:5000/friend/accept/${id}`,
+        {
+          sender: user._id,
+        }
+      );
+      console.log(response);
+    } catch (error) {
+      if (error) {
+        console.log(error);
+      }
+    }
+  };
 
   const handleShowModal = async () => {
     setShowModal(true);
@@ -25,9 +64,30 @@ const Messages = (props) => {
   };
   const sendFriendRequest = async (receiver) => {
     try {
-      await axios.post(`http://localhost:5000/friend/${receiver}`, {
-        sender: user._id,
-      });
+      const response = await axios.post(
+        `http://localhost:5000/friend/${receiver}`,
+        {
+          sender: user._id,
+        }
+      );
+      const data = await response.data;
+      console.log(data);
+    } catch (error) {
+      if (error) {
+        console.log(error.response.data);
+      }
+    }
+  };
+
+  const getFriendReq = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/friend/${user._id}`
+      );
+      const data = await response.data;
+      setLength(data.length);
+      setRequest(data);
+      console.log(data.length);
     } catch (error) {
       if (error) {
         console.log(error);
@@ -51,6 +111,7 @@ const Messages = (props) => {
   };
 
   useEffect(() => {
+    getFriendReq();
     getFriend();
   }, []);
   return (
@@ -78,6 +139,16 @@ const Messages = (props) => {
               onClick={handleShowModal}
             >
               Add Friend <AiOutlinePlus />
+            </Button>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <Button
+              className="btn-white-1 w-100 border"
+              onClick={handleFriendRequests}
+            >
+              Friend Request <span className="color-red">{length}</span>
             </Button>
           </Col>
         </Row>
@@ -183,6 +254,69 @@ const Messages = (props) => {
                           }}
                         >
                           Add Friend <AiOutlinePlus />
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </Col>
+              );
+            })}
+          </Row>
+        </Container>
+      </div>
+      <div
+        className={`${
+          showRequest ? "modal-friend-show" : "modal-friend-hide"
+        } modal-cont border`}
+      >
+        <div
+          className="close-btn"
+          onClick={() => {
+            setShowRequest(false);
+          }}
+        >
+          <AiOutlineClose />
+        </div>
+        <Container className="mt-3 overflow-hidden">
+          <Row className="all-user-container-2">
+            {request.map((user, i) => {
+              return (
+                <Col md={4}>
+                  <div className="d-flex flex-column">
+                    <div className=" p-3 my-2 d-flex flex-column border">
+                      <div className="chat-user d-flex flex-row gap-3">
+                        <img
+                          src={"/image/60111.jpg"}
+                          style={{ height: "50px", width: "50px" }}
+                          className="profile-picture"
+                        />
+                        <div className="d-flex flex-row gap-1">
+                          <p className="user-name">{user.user.name}</p>
+                          <div
+                            className={`${
+                              user.status === "Online"
+                                ? "status-online"
+                                : "status-offline"
+                            } mt-2`}
+                          ></div>
+                        </div>
+                      </div>
+                      <div className="unread-msg-box mt-3 d-flex gap-3 ">
+                        <Button
+                          className="btn-white-1"
+                          onClick={() => {
+                            acceptFriend(user.id);
+                          }}
+                        >
+                          Accept <AiOutlinePlus />
+                        </Button>
+                        <Button
+                          className="btn-danger"
+                          onClick={() => {
+                            rejectFriend(user.id);
+                          }}
+                        >
+                          Reject <AiOutlinePlus />
                         </Button>
                       </div>
                     </div>

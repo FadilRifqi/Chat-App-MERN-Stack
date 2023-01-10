@@ -4,7 +4,7 @@ import argon2 from "argon2";
 export const getUsers = async (req, res) => {
   try {
     const users = await User.find({}).select(
-      "name email newMessage status password img friendRequests"
+      "name email newMessage status img friendRequests"
     );
 
     const friends = await User.findById(req.session.user_id).select(

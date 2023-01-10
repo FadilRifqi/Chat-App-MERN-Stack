@@ -6,12 +6,15 @@ import { AppContext } from "../context/appContext";
 import ChatRoom from "./ChatRoom";
 import Messages from "./Messages";
 import { useGetUsersMutation } from "../services/appApi";
+import { useSelector } from "react-redux";
 
 const Chat = () => {
   const { members } = useContext(AppContext);
   const [sender, setSender] = useState("");
   const [receiver, setReceiver] = useState("");
-  const getMe = async () => {
+  const { user } = useSelector((state) => state.auth);
+
+  const getUsers = async () => {
     try {
       const response = await axios.get("http://localhost:5000/users");
       const data = response.data;
@@ -24,7 +27,7 @@ const Chat = () => {
   };
 
   useEffect(() => {
-    getMe();
+    getUsers();
   }, []);
 
   return (
